@@ -1,0 +1,82 @@
+<?php include 'recursion.php'; include 'hashtable.php'; include 'bst.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Digital Library Organizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>📚 Digital Library Organizer</h1>
+
+    <form method="get">
+        <button name="view" value="categories">📁 View Categories</button>
+        <button name="view" value="titles">🗂️ View All Titles (Alphabetical)</button>
+    </form>
+
+    <hr>
+
+    <form method="get">
+        <input type="text" name="title" placeholder="Enter book title..." required>
+        <input type="submit" value="🔍 Search Book">
+    </form>
+
+    <hr>
+
+    <div>
+        <?php
+        if (isset($_GET['view'])) {
+            if ($_GET['view'] === 'categories') {
+                echo "<h2>📂 Library Categories</h2>";
+                showLibrary($library);
+            } elseif ($_GET['view'] === 'titles') {
+                echo "<h2>🗂️ All Books (Alphabetical)</h2>";
+                $tree->display($tree->root);
+            }
+        }
+
+        if (isset($_GET['title'])) {
+            $title = trim($_GET['title']);
+            searchBook($title, $bookData);
+        }
+        ?>
+    </div>
+</div>
+
+</body>
+</html>
+
+/*
+Example Output 1: Viewing Categories
+
+📂 Library Categories
+📁 Philosophy
+   📁 Ethics
+      📖 The Nicomachean Ethics
+      📖 Groundwork of the Metaphysics of Morals
+   📁 Existentialism
+      📖 Being and Nothingness
+      📖 Man’s Search for Meaning
+
+
+Example Output 2: Viewing Titles
+
+📖 A Brief History of Time
+📖 Being and Nothingness
+📖 Form, Space, and Order
+📖 Man’s Search for Meaning
+📖 The Art of Computer Programming
+📖 The Nicomachean Ethics
+
+
+Example Output 3: Searching a Book
+
+📘 Book Found!
+Title: A Brief History of Time
+Author: Stephen Hawking
+Year: 1988
+Genre: Science
+
+*/
